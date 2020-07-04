@@ -35,9 +35,14 @@ router.delete('/:productId', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'handling POST requests to products'
-    })
+    const product = {
+        name: req.body.name,
+        price: req.body.price
+    };
+    res.status(201).json({
+        message: 'handling POST requests to products',
+        createdProduct: product
+    });
 });
 
 module.exports = router;
