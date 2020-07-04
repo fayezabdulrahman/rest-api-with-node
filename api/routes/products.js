@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const Product = require('../models/products');
+const Product = require('../models/product');
 
-router.get('/', (req, res, next) => {
+router.get("/", (req, res, next) => {
     Product.find()
-        .select('name price _id')
+        .select("name price _id")
         .exec()
         .then(docs => {
             const response = {
@@ -17,8 +17,8 @@ router.get('/', (req, res, next) => {
                         price: doc.price,
                         _id: doc.id,
                         request: {
-                            type: 'GET',
-                            url: 'http://localhost:3000/products/' + doc._id
+                            type: "GET",
+                            url: "http://localhost:3000/products/" + doc._id
                         }
                     };
                 })
@@ -33,10 +33,10 @@ router.get('/', (req, res, next) => {
         });
 });
 
-router.get('/:productId', (req, res, next) => {
+router.get("/:productId", (req, res, next) => {
     const id = req.params.productId;
     Product.findById(id)
-        .select('name price _id')
+        .select("name price _id")
         .exec()
         .then(doc => {
             console.log(doc);
@@ -44,12 +44,12 @@ router.get('/:productId', (req, res, next) => {
                 res.status(200).json({
                     product: doc,
                     request: {
-                        type: 'GET all products',
-                        url: 'http://localhost:3000/products'
+                        type: "GET all products",
+                        url: "http://localhost:3000/products"
                     }
                 });
             } else {
-                res.status(404).json({ message: 'No Entry Found for ID provided' })
+                res.status(404).json({ message: "No Entry Found for ID provided" })
             }
         })
         .catch(err => {
@@ -58,7 +58,7 @@ router.get('/:productId', (req, res, next) => {
         });
 });
 
-router.patch('/:productId', (req, res, next) => {
+router.patch("/:productId", (req, res, next) => {
     const id = req.params.productId;
 
     Product.update({ _id: id }, {
@@ -71,10 +71,10 @@ router.patch('/:productId', (req, res, next) => {
         .then(result => {
             console.log(result);
             res.status(200).json({
-                message: 'Product Updated',
+                message: "Product Updated",
                 request: {
-                    type: 'GET',
-                    url: 'http://localhost:3000/products/' + id
+                    type: "GET",
+                    url: "http://localhost:3000/products/" + id
                 }
             });
         })
@@ -84,13 +84,13 @@ router.patch('/:productId', (req, res, next) => {
         });
 });
 
-router.delete('/:productId', (req, res, next) => {
+router.delete("/:productId", (req, res, next) => {
     const id = req.params.productId;
     Product.remove({ _id: id })
         .exec()
         .then(result => {
             res.status(200).json({
-                message: 'Product deleted'
+                message: "Product deleted"
             });
         })
         .catch(err => {
@@ -99,7 +99,7 @@ router.delete('/:productId', (req, res, next) => {
         });
 });
 
-router.post('/', (req, res, next) => {
+router.post("/", (req, res, next) => {
     // define our product and extract the content using req.body
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
@@ -113,14 +113,14 @@ router.post('/', (req, res, next) => {
         .then(result => {
             console.log(result);
             res.status(201).json({
-                message: 'Created product successfully',
+                message: "Created product successfully",
                 createdProduct: {
                     name: result.name,
                     price: result.price,
                     _id: result._id,
                     request: {
-                        type: 'GET',
-                        url: 'http://localhost:3000/products/' + result._id
+                        type: "GET",
+                        url: "http://localhost:3000/products/" + result._id
                     }
                 }
             });
