@@ -6,9 +6,14 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const MONGO_DB_ATLAS_CONNECTION = 'mongodb+srv://admin:' + process.env.MONGO_ATLAS_PW + '@node-rest-haccp.f3pyj.mongodb.net/<dbname>?retryWrites=true&w=majority';
+
+// connect to mongoDb in the cloud
+mongoose.connect(MONGO_DB_ATLAS_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // morgan is used for displaying logs in our server (e.g GET/POST requests)
 app.use(morgan('dev'));
